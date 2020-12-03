@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
@@ -34,13 +35,26 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
-        title: Center(child: const Text('Agro-Disease-Detector')),
+        title: Center(child: const Text('Plant Disease Detector')),textTheme: TextTheme(
+      title: TextStyle(fontSize: 35.0,fontWeight: FontWeight.bold)
+    ),
+
       ),
 
-      body: SingleChildScrollView(
+      body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/image1.png'),
+                  fit: BoxFit.fitHeight
+              )
+          ),
+
+
         child: Column(
           children: [
+
             _loading ?
             Container(
               alignment: Alignment.center,
@@ -56,32 +70,51 @@ class _MyAppState extends State<MyApp> {
                     Padding(
                       padding: const EdgeInsets.all(30.0),
                       child: Center(child: Text(
-                        'Choose Image', style: TextStyle(fontSize: 20),)),
-                    ),
+                        'Choose Image', style: TextStyle(fontSize: 45,fontWeight: FontWeight.bold,color: Colors.white),)
+                      ),
 
-                  _image == null ? Container() : Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Image.file(_image),
-                  ),
+
+                    ),
+                  // Center(
+                  //   child: Column(
+                  //     children: [
+                  //       Image.asset('assets/image.png',
+                  //       width: 600.0,
+                  //       height: 1000.0,
+                  //       fit: BoxFit.fill,)
+                  //     ],
+                  //   ),
+                  // ),
+
+                  _image == null ? Container() : Container(decoration: BoxDecoration(color: Colors.white,border:Border.all()),
+                  padding: const EdgeInsets.all(40.0),
+                  child: Image.file(_image),),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(30.0),
+                  //   child: Image.file(_image),
+
+
 
                   SizedBox(height: 30,),
                   _outputs == null ? Text("") :
                   Center(
                     child: Text(
-                      "${"Here is the disease diagnosis:\n" + _outputs[0]["label"]}",
+                      "${"Detected Disease :\n" + _outputs[0]["label"]}",
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.0,),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 35.0,),
                     ),
                   ),
                   if(_outputs != null)
                     Center(
-                      child: Text("\n\n Confidence: "+_outputs[0]["confidence"].toString(),
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,),
+                      child: Text("\n Confidence : "+_outputs[0]["confidence"].toStringAsFixed(2),
+                      style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 35.0,),
                       ),
-                    )
+                     )
 
                 ],
               ),
@@ -95,6 +128,7 @@ class _MyAppState extends State<MyApp> {
         child: Icon(Icons.image),
       ),
     );
+
   }
 
   pickImage() async {

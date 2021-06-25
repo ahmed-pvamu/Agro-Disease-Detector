@@ -1,1 +1,1 @@
-Plant Leaf Diseases Detection
+<b>Plant Leaf Diseases Detection</b>
